@@ -9,5 +9,3 @@ fn dotfiles [@a]{ git --git-dir=$E:HOME/.dotfiles --work-tree=$E:HOME $@a }
 edit:completion:arg-completer[dotfiles] = $edit:completion:arg-completer[git]
 
 edit:abbr['||'] = '| less'
-
-use 'doublecompile.dev/edit.elv/compl/cat'
