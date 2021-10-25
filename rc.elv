@@ -11,5 +11,8 @@ edit:completion:arg-completer[dotfiles] = $edit:completion:arg-completer[git]
 edit:abbr['||'] = '| less'
 
 use prompts/git git-prompt
+use prompts/kcr kcr-prompt
 
-edit:rprompt = $git-prompt:prompt~
+edit:rprompt = {
+    print (kcr-prompt:prompt) (git-prompt:prompt)
+}
