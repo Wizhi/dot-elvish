@@ -11,6 +11,15 @@ set edit:after-command = [$@edit:after-command [_]{
     set cwd = (gitstatus:query $pwd)
 }]
 
+fn repo-abbr []{
+    if (not $cwd[is-repository]) {
+        return
+    }
+
+    styled (basename $cwd[workdir]) blue
+    str:trim-prefix $pwd $cwd[workdir]
+}
+
 fn head []{
     if (not $cwd[is-repository]) {
         return

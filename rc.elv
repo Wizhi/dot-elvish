@@ -13,6 +13,16 @@ edit:abbr['||'] = '| less'
 use prompts/git git-prompt
 use prompts/kcr kcr-prompt
 
+edit:prompt = {
+    if $git-prompt:cwd[is-repository] {
+        git-prompt:repo-abbr
+    } else {
+        tilde-abbr $pwd
+    }
+
+    put ' > '
+}
+
 edit:rprompt = {
     kcr-prompt:prompt
     git-prompt:head
