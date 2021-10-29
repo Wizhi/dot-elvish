@@ -39,7 +39,9 @@ fn status [git]{
     add commits-behind '🠗' yellow
     add commits-ahead  '🠕' green
 
-    put $status
+    if (not-eq $status '') {
+        put $status
+    }
 }
 
 fn prompt [&path=$pwd]{
