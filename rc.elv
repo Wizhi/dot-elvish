@@ -15,6 +15,6 @@ use prompts/kcr kcr-prompt
 
 edit:rprompt = {
     kcr-prompt:prompt
-    git-prompt:branch
+    git-prompt:head
     git-prompt:status
 }

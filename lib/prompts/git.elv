@@ -11,7 +11,7 @@ set edit:after-command = [$@edit:after-command [_]{
     set cwd = (gitstatus:query $pwd)
 }]
 
-fn branch []{
+fn head []{
     if (not $cwd[is-repository]) {
         return
     }
