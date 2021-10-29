@@ -11,29 +11,29 @@ set edit:after-command = [$@edit:after-command [_]{
     set cwd = (gitstatus:query $pwd)
 }]
 
-fn branch [git]{
-    if (not $git[is-repository]) {
+fn branch []{
+    if (not $cwd[is-repository]) {
         return
     }
 
-    if (eq $git[local-branch] "") {
-        styled $git[commit][:8] yellow
-    } elif (eq $git[local-branch] $git[remote-branch]) {
-        styled $git[local-branch] 'green'
+    if (eq $cwd[local-branch] "") {
+        styled $cwd[commit][:8] yellow
+    } elif (eq $cwd[local-branch] $cwd[remote-branch]) {
+        styled $cwd[local-branch] 'green'
     } else {
-        put (styled $git[local-branch] 'green')':'(styled $git[remote-branch] 'yellow')
+        put (styled $cwd[local-branch] 'green')':'(styled $cwd[remote-branch] 'yellow')
     }
 }
 
-fn status [git]{
-    if (not $git[is-repository]) {
+fn status []{
+    if (not $cwd[is-repository]) {
         return
     }
 
     set status = ''
 
     fn add [k i @s]{
-        if (> $git[$k] 0) {
+        if (> $cwd[$k] 0) {
             status = $status(styled $i $@s)
         }
     }
@@ -51,14 +51,12 @@ fn status [git]{
 }
 
 fn prompt [&path=$pwd]{
-    set git = (gitstatus:query $pwd)
-
-    if (not $git[is-repository]) {
+    if (not $cwd[is-repository]) {
         return
     }
 
-    set prompt = (branch $git)
-    set status = (status $git)
+    set prompt = (branch)
+    set status = (status)
 
     if (not-eq $status '') {
         set prompt = $prompt' '$status
