@@ -10,7 +10,9 @@ fn branch [git]{
         return
     }
 
-    if (eq $git[local-branch] $git[remote-branch]) {
+    if (eq $git[local-branch] "") {
+        styled $git[commit][:8] yellow
+    } elif (eq $git[local-branch] $git[remote-branch]) {
         styled $git[local-branch] 'green'
     } else {
         put (styled $git[local-branch] 'green')':'(styled $git[remote-branch] 'yellow')
