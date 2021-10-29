@@ -1,7 +1,7 @@
 use prompts/git
 use prompts/kcr
 
-edit:prompt = {
+set edit:prompt = {
     if $git:cwd[is-repository] {
         git:pwd
     } else {
@@ -11,7 +11,7 @@ edit:prompt = {
     put ' > '
 }
 
-edit:rprompt = {
+set edit:rprompt = {
     for segment [
         (kcr:client)
         (git:head)
