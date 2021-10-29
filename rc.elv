@@ -25,7 +25,7 @@ edit:prompt = {
 
 edit:rprompt = {
     for segment [
-        (kcr-prompt:prompt)
+        (kcr-prompt:client)
         (git-prompt:head)
         (git-prompt:status)
     ] {

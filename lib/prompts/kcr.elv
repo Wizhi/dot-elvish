@@ -1,3 +1,7 @@
-fn prompt []{
-    set _ = ?(put (kcr prompt))
+fn client []{
+    if (has-external kcr) {
+        try {
+            kcr prompt
+        } except { }
+    }
 }
