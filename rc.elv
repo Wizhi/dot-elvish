@@ -24,7 +24,13 @@ edit:prompt = {
 }
 
 edit:rprompt = {
-    kcr-prompt:prompt
-    git-prompt:head
-    git-prompt:status
+    for segment [
+        (kcr-prompt:prompt)
+        (git-prompt:head)
+        (git-prompt:status)
+    ] {
+        if $segment {
+            put ' ' $segment
+        }
+    }
 }
