@@ -16,8 +16,7 @@ fn repo-abbr []{
         return
     }
 
-    styled (basename $cwd[workdir]) blue
-    str:trim-prefix $pwd $cwd[workdir]
+    put (styled (basename $cwd[workdir]) blue)(str:trim-prefix $pwd $cwd[workdir])
 }
 
 fn head []{
