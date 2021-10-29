@@ -15,7 +15,7 @@ use prompts/kcr kcr-prompt
 
 edit:prompt = {
     if $git-prompt:cwd[is-repository] {
-        git-prompt:repo-abbr
+        git-prompt:pwd
     } else {
         tilde-abbr $pwd
     }
