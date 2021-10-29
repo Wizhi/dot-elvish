@@ -5,6 +5,12 @@ epm:install &silent-if-installed=$true github.com/href/elvish-gitstatus
 use str
 use github.com/href/elvish-gitstatus/gitstatus
 
+var cwd
+
+set edit:after-command = [$@edit:after-command [_]{
+    set cwd = (gitstatus:query $pwd)
+}]
+
 fn branch [git]{
     if (not $git[is-repository]) {
         return
