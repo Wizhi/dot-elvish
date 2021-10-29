@@ -2,6 +2,7 @@ use epm
 
 epm:install &silent-if-installed=$true github.com/zzamboni/elvish-completions
 
+use github.com/zzamboni/elvish-completions/builtins
 use github.com/zzamboni/elvish-completions/cd
 use github.com/zzamboni/elvish-completions/git
 
