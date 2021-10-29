@@ -49,18 +49,3 @@ fn status []{
         put $status
     }
 }
-
-fn prompt [&path=$pwd]{
-    if (not $cwd[is-repository]) {
-        return
-    }
-
-    set prompt = (branch)
-    set status = (status)
-
-    if (not-eq $status '') {
-        set prompt = $prompt' '$status
-    }
-
-    put $prompt
-}

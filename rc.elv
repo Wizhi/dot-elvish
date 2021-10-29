@@ -14,5 +14,7 @@ use prompts/git git-prompt
 use prompts/kcr kcr-prompt
 
 edit:rprompt = {
-    print (kcr-prompt:prompt) (git-prompt:prompt)
+    kcr-prompt:prompt
+    git-prompt:branch
+    git-prompt:status
 }
