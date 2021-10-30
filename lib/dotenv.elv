@@ -48,6 +48,18 @@ fn load-file [path]{
     }
 }
 
+fn unload-file [path]{
+    if (not (path:is-regular $path)) {
+        fail
+    }
+
+    set env = (parse-file $path)
+
+    for name [(keys $env)] {
+        unset-env $name
+    }
+}
+
 fn load [&path=$file-name]{
     if (not (path:is-regular $path)) {
         return
