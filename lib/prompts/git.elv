@@ -26,7 +26,7 @@ fn head []{
 
     if (eq $cwd[local-branch] '') {
         styled $cwd[commit][:8] yellow
-    } elif (eq $cwd[local-branch] $cwd[remote-branch]) {
+    } elif (or (eq $cwd[local-branch] $cwd[remote-branch]) (eq $cwd[remote-branch] '')) {
         styled $cwd[local-branch] green
     } else {
         put (styled $cwd[local-branch] green)':'(styled $cwd[remote-branch] yellow)
