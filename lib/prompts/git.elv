@@ -7,6 +7,10 @@ use github.com/href/elvish-gitstatus/gitstatus
 
 var cwd
 
+set before-chdir = [$@before-chdir [dir]{
+    set cwd = (gitstatus:query $dir)
+}]
+
 set edit:after-command = [$@edit:after-command [_]{
     set cwd = (gitstatus:query $pwd)
 }]
