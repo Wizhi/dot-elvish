@@ -68,6 +68,38 @@ fn load [&path=$file-name]{
     load-file $path
 }
 
+fn hook [&file-name=$file-name]{
+    set loaded = []
+
+    fn files [dir]{
+        set names = [(str:split '/' (path:abs $dir))][1..]
+
+        for i [(range (count $names))] {
+            set file = '/'(str:join '/' $names[..(+ $i 1)])'/'$file-name
+
+            if (path:is-regular $file) {
+                put $file
+            }
+        }
+    }
+
+    fn callback [dir]{
+        for file [(order &reverse $loaded)] {
+            unload-file $file
+        }
+
+        set files = [(files (path:abs $dir))]
+
+        for file $files {
+            load-file $file
+        }
+
+        set loaded = $files
+    }
+
+    put $callback~
+}
+
 fn exec [&path=$file-name script]{
     if (not (path:is-regular $path)) {
         return
