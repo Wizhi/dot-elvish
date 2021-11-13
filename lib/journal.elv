@@ -14,10 +14,20 @@ fn -editor [e]{
     }
 }
 
-fn new [title &dir=$dir &editor=$editor]{
+fn -today [&create=$true]{
+    set path = $dir/(date '+%Y/%m/%d')
+
+    if $create {
+        mkdir --parents $path
+    }
+
+    put $path
+}
+
+fn new [title &editor=$editor]{
     set title = (str:trim-space $title)
     set editor = (-editor $editor)
-    set dir = $dir/(date '+%Y/%m/%d')
+    set dir = (-today)
 
     set file = (re:replace " +" "_" $title | str:replace "/" "-" (one) | str:to-lower (one))".md"
     set draft = (mktemp --tmpdir "journal-XXXXXXXXXX-"$file)
