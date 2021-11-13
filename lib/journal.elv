@@ -1,4 +1,3 @@
-use re
 use str
 
 var dir = $E:HOME/journal
@@ -24,28 +23,10 @@ fn -today [&create=$true]{
     put $path
 }
 
-fn new [title &editor=$editor]{
-    set title = (str:trim-space $title)
+fn open [&editor=$editor]{
     set editor = (-editor $editor)
-    set dir = (-today)
 
-    set file = (re:replace " +" "_" $title | str:replace "/" "-" (one) | str:to-lower (one))".md"
-    set draft = (mktemp --tmpdir "journal-XXXXXXXXXX-"$file)
-
-    printf "# %s" $title > $draft
-
-    set before = (stat --format "%Y" $draft)
-
-    $editor $draft
-
-    set after = (stat --format "%Y" $draft)
-
-    if (not-eq $before $after) {
-        mkdir --parents $dir
-        cp $draft $dir/$file
-    }
-
-    rm $draft
+    $editor (-today)/entry.md
 }
 
 fn -meal-path []{ put (-today)/meals }
