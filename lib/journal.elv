@@ -47,3 +47,16 @@ fn new [title &editor=$editor]{
 
     rm $draft
 }
+
+fn meal [summary &kcal=0 &dir=$dir]{
+    set path = (-today)/meals
+    set metadata = [&time=(date '+%H:%M:%S')]
+
+    if (< 0 $kcal) {
+        set metadata[kcal] = (printf "%.2f" $kcal)
+    }
+
+    printf "%s | %s\n" $summary (keys $metadata | each [name]{
+        put (printf '%s: %s' $name $metadata[$name])
+    } | str:join ", " [(all)]) >> $path
+}
