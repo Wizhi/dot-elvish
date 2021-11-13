@@ -48,8 +48,10 @@ fn new [title &editor=$editor]{
     rm $draft
 }
 
+fn -meal-path []{ put (-today)/meals }
+
 fn meal [summary &kcal=0 &dir=$dir]{
-    set path = (-today)/meals
+    set path = (-meal-path)
     set metadata = [&time=(date '+%H:%M:%S')]
 
     if (< 0 $kcal) {
@@ -59,4 +61,8 @@ fn meal [summary &kcal=0 &dir=$dir]{
     printf "%s | %s\n" $summary (keys $metadata | each [name]{
         put (printf '%s: %s' $name $metadata[$name])
     } | str:join ", " [(all)]) >> $path
+}
+
+fn meals []{
+    cat (-meal-path)
 }
