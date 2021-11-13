@@ -3,9 +3,9 @@ use str
 var dir = $E:HOME/journal
 var editor = $E:EDITOR
 
-fn -editor [e]{
-    if (has-external $e) {
-        external $e
+fn -editor []{
+    if (has-external $editor) {
+        external $editor
     } elif (has-external $E:EDITOR) {
         external $E:EDITOR
     } else {
@@ -23,10 +23,8 @@ fn -today [&create=$true]{
     put $path
 }
 
-fn open [&editor=$editor]{
-    set editor = (-editor $editor)
-
-    $editor (-today)/entry.md
+fn open []{
+    (-editor) (-today)/entry.md
 }
 
 fn -meal-path []{ put (-today)/meals }
