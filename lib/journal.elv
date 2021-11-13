@@ -23,6 +23,10 @@ fn -today [&create=$true]{
     put $path
 }
 
+fn cleanup []{
+    find $dir -empty -type d,f -delete
+}
+
 fn open []{
     (-editor) (-today)/entry.md
 }
