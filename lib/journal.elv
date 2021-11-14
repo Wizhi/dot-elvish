@@ -3,6 +3,10 @@ use str
 var dir = $E:HOME/journal
 var editor = $E:EDITOR
 
+fn cleanup []{
+    find $dir -empty -type d,f -delete
+}
+
 fn -day []{
     put (date "+%Y/%m/%d")
 }
@@ -19,10 +23,6 @@ fn -dir [&create=$true]{
     }
 
     put $path
-}
-
-fn cleanup []{
-    find $dir -empty -type d,f -delete
 }
 
 fn -editor []{
