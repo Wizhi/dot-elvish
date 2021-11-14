@@ -44,7 +44,7 @@ fn open []{
 }
 
 fn event [summary]{
-    printf "[%s] %s\n" (-time) $summary >> (-entry-path)
+    printf "## %s %s\n" (-time) $summary >> (-entry-path)
 }
 
 fn -meal-path []{
