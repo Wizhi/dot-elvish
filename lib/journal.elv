@@ -4,10 +4,6 @@ use str
 var dir = $E:HOME/journal
 var editor = $E:EDITOR
 
-fn cleanup []{
-    find $dir -empty -type d,f -delete
-}
-
 fn -day []{
     put (date "+%Y/%m/%d")
 }
@@ -29,6 +25,10 @@ fn -dir [&create=$true]{
 fn save []{
     git -C $dir add (-dir)
     git -C $dir commit --quiet --message (printf "Save %s @ %s" (-day) (-time))
+}
+
+fn cleanup []{
+    find $dir -empty -type d,f -delete
 }
 
 fn -editor []{
