@@ -23,6 +23,10 @@ fn -today [&create=$true]{
     put $path
 }
 
+fn -time []{
+    put (date "+%H:%M:%S")
+}
+
 fn cleanup []{
     find $dir -empty -type d,f -delete
 }
@@ -31,11 +35,15 @@ fn open []{
     (-editor) (-today)/entry.md
 }
 
+fn event [summary]{
+    printf "[%s] %s\n" (-time) $summary >> (-today)/entry.md
+}
+
 fn -meal-path []{ put (-today)/meals }
 
 fn meal [summary &kcal=0 &dir=$dir]{
     set path = (-meal-path)
-    set metadata = [&time=(date '+%H:%M:%S')]
+    set metadata = [&time=(-time)]
 
     if (< 0 $kcal) {
         set metadata[kcal] = (printf "%.2f" $kcal)
