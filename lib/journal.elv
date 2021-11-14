@@ -43,7 +43,9 @@ fn event [summary]{
     printf "[%s] %s\n" (-time) $summary >> (-dir)/entry.md
 }
 
-fn -meal-path []{ put (-dir)/meals }
+fn -meal-path []{
+    put (-dir)/meals
+}
 
 fn meal [summary &kcal=0 &dir=$dir]{
     set path = (-meal-path)
