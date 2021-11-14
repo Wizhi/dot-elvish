@@ -47,7 +47,7 @@ fn -meal-path []{
     put (-dir)/meals
 }
 
-fn meal [summary &kcal=0 &dir=$dir]{
+fn meal [summary &kcal=0]{
     set path = (-meal-path)
     set metadata = [&time=(-time)]
 
