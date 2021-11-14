@@ -1,3 +1,4 @@
+use path
 use str
 
 var dir = $E:HOME/journal
@@ -36,7 +37,13 @@ fn -editor []{
 }
 
 fn -entry-path []{
-    put (-dir)/entry.md
+    set path = (-dir)/entry.md
+
+    if (not (path:is-regular $path)) {
+        printf "# %s\n\nHow's life?\n\n" (-day) > $path
+    }
+
+    put $path
 }
 
 fn open []{
