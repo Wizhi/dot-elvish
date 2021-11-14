@@ -3,6 +3,28 @@ use str
 var dir = $E:HOME/journal
 var editor = $E:EDITOR
 
+fn -day []{
+    put (date "+%Y/%m/%d")
+}
+
+fn -time []{
+    put (date "+%H:%M:%S")
+}
+
+fn -dir [&create=$true]{
+    set path = $dir/(-day)
+
+    if $create {
+        mkdir --parents $path
+    }
+
+    put $path
+}
+
+fn cleanup []{
+    find $dir -empty -type d,f -delete
+}
+
 fn -editor []{
     if (has-external $editor) {
         external $editor
@@ -13,33 +35,15 @@ fn -editor []{
     }
 }
 
-fn -today [&create=$true]{
-    set path = $dir/(date '+%Y/%m/%d')
-
-    if $create {
-        mkdir --parents $path
-    }
-
-    put $path
-}
-
-fn -time []{
-    put (date "+%H:%M:%S")
-}
-
-fn cleanup []{
-    find $dir -empty -type d,f -delete
-}
-
 fn open []{
-    (-editor) (-today)/entry.md
+    (-editor) (-dir)/entry.md
 }
 
 fn event [summary]{
-    printf "[%s] %s\n" (-time) $summary >> (-today)/entry.md
+    printf "[%s] %s\n" (-time) $summary >> (-dir)/entry.md
 }
 
-fn -meal-path []{ put (-today)/meals }
+fn -meal-path []{ put (-dir)/meals }
 
 fn meal [summary &kcal=0 &dir=$dir]{
     set path = (-meal-path)
