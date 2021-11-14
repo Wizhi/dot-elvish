@@ -31,7 +31,7 @@ fn -editor []{
     } elif (has-external $E:EDITOR) {
         external $E:EDITOR
     } else {
-        fail 'no editor found'
+        fail "no editor found"
     }
 }
 
@@ -54,7 +54,7 @@ fn meal [summary &kcal=0 &dir=$dir]{
     }
 
     printf "%s | %s\n" $summary (keys $metadata | each [name]{
-        put (printf '%s: %s' $name $metadata[$name])
+        put (printf "%s: %s" $name $metadata[$name])
     } | str:join ", " [(all)]) >> $path
 }
 
