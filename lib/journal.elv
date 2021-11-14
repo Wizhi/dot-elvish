@@ -26,6 +26,11 @@ fn -dir [&create=$true]{
     put $path
 }
 
+fn save []{
+    git -C $dir add (-dir)
+    git -C $dir commit --quiet --message (printf "Save %s @ %s" (-day) (-time))
+}
+
 fn -editor []{
     if (has-external $editor) {
         external $editor
