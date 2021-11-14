@@ -35,12 +35,16 @@ fn -editor []{
     }
 }
 
+fn -entry-path []{
+    put (-dir)/entry.md
+}
+
 fn open []{
-    (-editor) (-dir)/entry.md
+    (-editor) (-entry-path)
 }
 
 fn event [summary]{
-    printf "[%s] %s\n" (-time) $summary >> (-dir)/entry.md
+    printf "[%s] %s\n" (-time) $summary >> (-entry-path)
 }
 
 fn -meal-path []{
