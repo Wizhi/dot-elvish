@@ -47,6 +47,10 @@ fn event [summary]{
     printf "## %s %s\n" (-time) $summary >> (-entry-path)
 }
 
+fn events []{
+    grep -E "^## [0-9]{2}:[0-9]{2}:[0-9]{2}" (-entry-path)
+}
+
 fn -meal-path []{
     put (-dir)/meals
 }
