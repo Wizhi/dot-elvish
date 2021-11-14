@@ -24,8 +24,10 @@ fn -dir [&create=$true]{
 
 fn save []{
     try {
+        git -C $dir pull > /dev/null
         git -C $dir add (-dir)
         git -C $dir commit --quiet --message (printf "Save %s @ %s" (-day) (-time)) > /dev/null
+        git -C $dir push > /dev/null
     } except { }
 }
 
