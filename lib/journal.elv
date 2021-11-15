@@ -16,7 +16,7 @@ fn -dir [&create=$true]{
     set path = $dir/(-day)
 
     if $create {
-        mkdir --parents $path
+        mkdir -p $path
     }
 
     put $path
