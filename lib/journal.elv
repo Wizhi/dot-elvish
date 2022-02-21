@@ -4,16 +4,16 @@ use str
 var dir = $E:HOME/journal
 var editor = $E:EDITOR
 
-fn -day []{
+fn -day {||
     put (date "+%Y/%m/%d")
 }
 
-fn -time []{
+fn -time {||
     put (date "+%H:%M:%S")
 }
 
-fn -dir [&create=$true]{
-    set path = $dir/(-day)
+fn -dir {|&create=$true|
+    var path; set path = $dir/(-day)
 
     if $create {
         mkdir -p $path
@@ -22,7 +22,7 @@ fn -dir [&create=$true]{
     put $path
 }
 
-fn save []{
+fn save {||
     try {
         git -C $dir pull > /dev/null
         git -C $dir add (-dir)
@@ -31,11 +31,11 @@ fn save []{
     } except { }
 }
 
-fn cleanup []{
+fn cleanup {||
     find $dir -empty -type d,f -delete
 }
 
-fn -editor []{
+fn -editor {||
     if (has-external $editor) {
         external $editor
     } elif (has-external $E:EDITOR) {
@@ -45,8 +45,8 @@ fn -editor []{
     }
 }
 
-fn -entry-path []{
-    set path = (-dir)/entry.md
+fn -entry-path {||
+    var path; set path = (-dir)/entry.md
 
     if (not (path:is-regular $path)) {
         printf "# %s\n\nHow's life?\n\n" (-day) > $path
@@ -55,35 +55,35 @@ fn -entry-path []{
     put $path
 }
 
-fn open []{
+fn open {||
     (-editor) (-entry-path)
 }
 
-fn event [summary]{
+fn event {|summary|
     printf "## %s %s\n\nWhat happened?\n\n" (-time) $summary >> (-entry-path)
 }
 
-fn events []{
+fn events {||
     grep -E "^## [0-9]{2}:[0-9]{2}:[0-9]{2}" (-entry-path)
 }
 
-fn -meal-path []{
+fn -meal-path {||
     put (-dir)/meals
 }
 
-fn meal [summary &kcal=0]{
-    set path = (-meal-path)
-    set metadata = [&time=(-time)]
+fn meal {|summary &kcal=0|
+    var path; set path = (-meal-path)
+    var metadata; set metadata = [&time=(-time)]
 
     if (< 0 $kcal) {
         set metadata[kcal] = (printf "%.2f" $kcal)
     }
 
-    printf "%s | %s\n" $summary (keys $metadata | each [name]{
+    printf "%s | %s\n" $summary (keys $metadata | each {|name|
         put (printf "%s: %s" $name $metadata[$name])
     } | str:join ", " [(all)]) >> $path
 }
 
-fn meals []{
+fn meals {||
     cat (-meal-path)
 }

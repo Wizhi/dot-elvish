@@ -1,17 +1,17 @@
 use path
 use str
 
-set file-name = '.env'
+var file-name; set file-name = '.env'
 
-fn -parse-line [line]{
-    set name value = (str:split &max=2 '=' $line)
+fn -parse-line {|line|
+    var name value; set name value = (str:split &max=2 '=' $line)
 
     str:trim-space $name
     str:trim-space $value
 }
 
-fn -parse [lines]{
-    env = [&]
+fn -parse {|lines|
+    var env = [&]
 
     for line $lines {
         set line = (str:trim-space $line)
@@ -20,7 +20,7 @@ fn -parse [lines]{
             continue
         }
 
-        name value = (-parse-line $line)
+        var name value = (-parse-line $line)
 
         set env[$name] = $value
     }
@@ -28,7 +28,7 @@ fn -parse [lines]{
     put $env
 }
 
-fn parse-file [path]{
+fn parse-file {|path|
     if (not (path:is-regular $path)) {
         fail
     }
@@ -36,31 +36,31 @@ fn parse-file [path]{
     -parse [(cat $path)]
 }
 
-fn load-file [path]{
+fn load-file {|path|
     if (not (path:is-regular $path)) {
         fail
     }
 
-    set env = (parse-file $path)
+    var env; set env = (parse-file $path)
 
     for name [(keys $env)] {
         set-env $name $env[$name]
     }
 }
 
-fn unload-file [path]{
+fn unload-file {|path|
     if (not (path:is-regular $path)) {
         fail
     }
 
-    set env = (parse-file $path)
+    var env; set env = (parse-file $path)
 
     for name [(keys $env)] {
         unset-env $name
     }
 }
 
-fn load [&path=$file-name]{
+fn load {|&path=$file-name|
     if (not (path:is-regular $path)) {
         return
     }
@@ -68,14 +68,14 @@ fn load [&path=$file-name]{
     load-file $path
 }
 
-fn hook [&file-name=$file-name]{
-    set loaded = []
+fn hook {|&file-name=$file-name|
+    var loaded; set loaded = []
 
-    fn files [dir]{
-        set names = [(str:split '/' (path:abs $dir))][1..]
+    fn files {|dir|
+        var names; set names = [(str:split '/' (path:abs $dir))][1..]
 
         for i [(range (count $names))] {
-            set file = '/'(str:join '/' $names[..(+ $i 1)])'/'$file-name
+            var file; set file = '/'(str:join '/' $names[..(+ $i 1)])'/'$file-name
 
             if (path:is-regular $file) {
                 put $file
@@ -83,12 +83,12 @@ fn hook [&file-name=$file-name]{
         }
     }
 
-    fn callback [dir]{
+    fn callback {|dir|
         for file [(order &reverse $loaded)] {
             unload-file $file
         }
 
-        set files = [(files (path:abs $dir))]
+        var files; set files = [(files (path:abs $dir))]
 
         for file $files {
             load-file $file
@@ -100,13 +100,13 @@ fn hook [&file-name=$file-name]{
     put $callback~
 }
 
-fn exec [&path=$file-name script]{
+fn exec {|&path=$file-name script|
     if (not (path:is-regular $path)) {
         return
     }
 
-    set env = (parse-file $path)
-    set original = (each [name]{
+    var env; set env = (parse-file $path)
+    var original; set original = (each {|name|
         if (has-env $name) {
             put [$name (get-env $name)]
         }
