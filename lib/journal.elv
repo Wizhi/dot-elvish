@@ -28,7 +28,7 @@ fn save {||
         git -C $dir add (-dir)
         git -C $dir commit --quiet --message (printf "Save %s @ %s" (-day) (-time)) > /dev/null
         git -C $dir push > /dev/null
-    } except { }
+    } catch { }
 }
 
 fn cleanup {||
