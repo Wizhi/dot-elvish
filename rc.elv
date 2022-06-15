@@ -25,16 +25,3 @@ fn watch {|@a &n=2s|
         sleep $n
     }
 }
-
-fn reduce {|f @v &z=$nil|
-    if (eq $z $nil) {
-        set z = (coalesce (take 1 $v))
-        set v = [(drop 1 $v)]
-    }
-
-    for v $v {
-        set z = ($f $z $v)
-    }
-
-    put $z
-}
