@@ -1,6 +1,6 @@
 use math
 
-fn reduce-input {|f &z=$nil|
+fn -reduce-input {|f &z=$nil|
     each {|v|
         set z = (if $z {
             $f $z $v
@@ -12,7 +12,7 @@ fn reduce-input {|f &z=$nil|
     put $z
 }
 
-fn reduce-list {|f @a &z=$nil|
+fn -reduce-list {|f @a &z=$nil|
     if (not $z) {
         set z = (take 1 $a)
         set a = [(drop 1 $a)]
@@ -23,6 +23,14 @@ fn reduce-list {|f @a &z=$nil|
     }
 
     put $z
+}
+
+fn reduce {|f @a &z=$nil|
+	if (== (count $a) 0) {
+		-reduce-input $f &z=$z
+	} else {
+		-reduce-list $f $@a &z=$z	
+	}
 }
 
 fn zip {|a b|
