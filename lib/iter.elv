@@ -33,8 +33,26 @@ fn reduce {|f @a &z=$nil|
 	}
 }
 
-fn zip {|a b|
-    range (math:min (count $a) (count $b)) | each {|i|
-        put [$a[$i] $b[$i]]
+# Calls f with arguments consisting of the first value of each list, followed 
+# by calling f with arguments consisting of the second value of each list, 
+# until any one of the the lists is exhausted.
+#
+# Examples:
+#   iter:map $'+~' [1 2 3] [4 5 6]
+#   ▶ (num 5)
+#   ▶ (num 7)
+#   ▶ (num 9)
+#
+#   iter:map {|a b| put [$a $b]} [1 2 3] [a b c]
+#   ▶ [1 a]
+#   ▶ [2 b]
+#   ▶ [3 c]
+fn map {|f list @lists|
+    var n = (reduce {|z v| math:min $z (count $v)} ^
+                    &z=(count $list) ^
+                    $@lists)
+
+    range $n | each {|i|
+      $f $list[$i] (each {|a| put $a[$i]} $lists)
     }
 }
