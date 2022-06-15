@@ -12,13 +12,13 @@ fn -reduce-input {|f &z=$nil|
     put $z
 }
 
-fn -reduce-list {|f @a &z=$nil|
+fn -reduce-list {|f list &z=$nil|
     if (not $z) {
-        set z = (take 1 $a)
-        set a = [(drop 1 $a)]
+        set z = (coalesce (take 1 $list))
+        set list = [(drop 1 $list)]
     }
 
-    for a $a {
+    for a $list {
         set z = ($f $z $a)
     }
 
@@ -28,8 +28,10 @@ fn -reduce-list {|f @a &z=$nil|
 fn reduce {|f @a &z=$nil|
 	if (== (count $a) 0) {
 		-reduce-input $f &z=$z
+	} elif (== (count $a) 1) {
+		-reduce-list $f $a[0] &z=$z
 	} else {
-		-reduce-list $f $@a &z=$z	
+		fail 'expected 1 list, got '(count $a)
 	}
 }
 
@@ -50,7 +52,7 @@ fn reduce {|f @a &z=$nil|
 fn map {|f list @lists|
     var n = (reduce {|z v| math:min $z (count $v)} ^
                     &z=(count $list) ^
-                    $@lists)
+                    $lists)
 
     range $n | each {|i|
       $f $list[$i] (each {|a| put $a[$i]} $lists)
