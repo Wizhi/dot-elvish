@@ -26,13 +26,13 @@ fn -reduce-list {|f list &z=$nil|
 }
 
 fn reduce {|f @a &z=$nil|
-	if (== (count $a) 0) {
-		-reduce-input $f &z=$z
-	} elif (== (count $a) 1) {
-		-reduce-list $f $a[0] &z=$z
-	} else {
-		fail 'expected 1 list, got '(count $a)
-	}
+    if (== (count $a) 0) {
+        -reduce-input $f &z=$z
+    } elif (== (count $a) 1) {
+        -reduce-list $f $a[0] &z=$z
+    } else {
+        fail 'expected 1 list, got '(count $a)
+    }
 }
 
 # Calls f with arguments consisting of the first value of each list, followed 
@@ -55,6 +55,6 @@ fn map {|f list @lists|
                     $lists)
 
     range $n | each {|i|
-      $f $list[$i] (each {|a| put $a[$i]} $lists)
+        $f $list[$i] (each {|a| put $a[$i]} $lists)
     }
 }
