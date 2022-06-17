@@ -62,3 +62,40 @@ fn map {|f list @lists|
 fn zip {|list1 list2 @lists|
     map {|@a| put $a } $list1 $list2 $@lists
 }
+
+fn -partition-input {|n|
+    var i w = 0 []
+
+    each {|a|
+        set i w = (+ $i 1) [$@w $a]
+
+        if (== (% $i $n) 0) {
+            put $w
+            set w = []
+        }
+    }
+
+    if (> (count $w) 0) {
+        put $w
+    }
+}
+
+fn -partition-list {|n list &step=$nil|
+    range (- (count $list) (math:max $size $step) -1) &step=$step | each {|i|
+        put $list[$i..(+ $i $size)]
+    }
+}
+
+fn partition {|n @list &step=$nil|
+    if (== (count $list) 0) {
+		if $step {
+            fail '&step option is only supported for list'
+        }
+
+        -partition-input $n
+    } elif (== (count $list) 1) {
+        -partition-list $n $list[0] &step=(coalesce $step $n)
+    } else {
+        fail 'expected 1 list, got '(count $list)
+    }
+}
