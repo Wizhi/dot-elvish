@@ -58,3 +58,7 @@ fn map {|f list @lists|
         $f $list[$i] (each {|a| put $a[$i]} $lists)
     }
 }
+
+fn zip {|list1 list2 @lists|
+    map {|@a| put $a } $list1 $list2 $@lists
+}
