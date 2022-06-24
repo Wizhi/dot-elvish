@@ -81,8 +81,8 @@ fn -partition-input {|n|
 }
 
 fn -partition-list {|n list &step=$nil|
-    range (- (count $list) (math:max $size $step) -1) &step=$step | each {|i|
-        put $list[$i..(+ $i $size)]
+    range (- (count $list) (math:max $n $step) -1) &step=$step | each {|i|
+        put $list[$i..(+ $i $n)]
     }
 }
 
