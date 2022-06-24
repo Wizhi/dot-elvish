@@ -9,3 +9,15 @@ fn comp {|f @fs|
         put {|@a| $z ($v $@a)}
     } $fs &z=$f
 }
+
+fn memoize {|f|
+    var c = [&]
+
+    put {|@a|
+        if (not (has-key $c $a)) {
+            set c = (assoc $c $a ($f $@a))
+        }
+
+        all $c[$a]
+    }
+}
