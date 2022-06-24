@@ -88,7 +88,7 @@ fn -partition-list {|n list &step=$nil|
 
 fn partition {|n @list &step=$nil|
     if (== (count $list) 0) {
-		if $step {
+        if $step {
             fail '&step option is only supported for list'
         }
 
