@@ -1,3 +1,5 @@
+set paths = [$E:HOME/.local/bin $@paths]
+
 use ./completions
 use ./prompt
 
