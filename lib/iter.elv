@@ -99,3 +99,33 @@ fn partition {|n @list &step=$nil|
         fail 'expected 1 list, got '(count $list)
     }
 }
+
+fn -first-input {|f|
+    each {|v|
+        if ($f $v) {
+            put $v
+            break
+        }
+    }
+}
+
+fn -first-list {|f list|
+    for v $list {
+        if ($f $v) {
+            put $v
+            return
+        }
+    }
+}
+
+fn first {|f @list|
+    var n = (count $list)
+
+    if (== $n 0) {
+        -first-input $f
+    } elif (== $n 1) {
+        -first-list $f $list[0]
+    } else {
+        fail "invalid usage"
+    }
+}
