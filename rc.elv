@@ -9,6 +9,10 @@ use journal
 
 fn dotfiles {|@a| git --git-dir=$E:HOME/.dotfiles --work-tree=$E:HOME $@a }
 
+if (has-external direnv) {
+    eval (direnv hook elvish | slurp)
+}
+
 set E:EDITOR = hx
 
 fn watch {|@a &n=2s|
