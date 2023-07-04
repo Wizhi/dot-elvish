@@ -13,7 +13,7 @@ if (has-external direnv) {
     eval (direnv hook elvish | slurp)
 }
 
-set E:EDITOR = hx
+set E:EDITOR = helix
 
 fn watch {|@a &n=2s|
     edit:clear
