@@ -24,7 +24,7 @@ fn memoize {|fn|
 
     put {|@args|
         if (not (has-key $cache $args)) {
-            set cache = (assoc $cache $args ($fn $@args))
+            set cache = (assoc $cache $args [($fn $@args)])
         }
 
         all $cache[$args]
