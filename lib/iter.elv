@@ -40,38 +40,35 @@ fn zip {|list1 list2 @lists|
     map {|@a| put $a } $list1 $list2 $@lists
 }
 
-fn -partition-input {|n|
-    var i w = 0 []
+fn -partition-input {|n step|
+    var a = []
 
-    each {|a|
-        set i w = (+ $i 1) [$@w $a]
-
-        if (== (% $i $n) 0) {
-            put $w
-            set w = []
+    each {|v|
+        set a = (conj $a $v)
+        if (== $n (count $a)) {
+            put $a
+            set a = $a[$step..]
         }
     }
 
-    if (> (count $w) 0) {
-        put $w
+    if (< 0 (count $a)) {
+        put $a
     }
 }
 
-fn -partition-list {|n list &step=$nil|
+fn -partition-list {|n step list|
     range (count $list) &step=$step | each {|i|
         put $list[$i..(math:min (+ $i $n) (count $list))]
     }
 }
 
 fn partition {|n @list &step=$nil|
-    if (== (count $list) 0) {
-        if $step {
-            fail '&step option is only supported for list'
-        }
+    set step = (coalesce $step $n)
 
-        -partition-input $n
+    if (== (count $list) 0) {
+        -partition-input $n $step
     } elif (== (count $list) 1) {
-        -partition-list $n $list[0] &step=(coalesce $step $n)
+        -partition-list $n $step $list[0]
     } else {
         fail 'expected 1 list, got '(count $list)
     }
