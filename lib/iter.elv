@@ -129,3 +129,11 @@ fn first {|f @list|
         fail "invalid usage"
     }
 }
+
+fn filter {|f @list|
+    each {|x|
+        if ($f $x) {
+            put $x
+        }
+    } $@list
+}
