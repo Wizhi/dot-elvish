@@ -1,38 +1,15 @@
 use math
 
-fn -reduce-input {|f &z=$nil|
+fn reduce {|f @list &z=$nil|
     each {|v|
         set z = (if $z {
             $f $z $v
-         } else {
+        } else {
             put $v
         })
-    }
+    } $@list
 
     put $z
-}
-
-fn -reduce-list {|f list &z=$nil|
-    if (not $z) {
-        set z = (coalesce (take 1 $list))
-        set list = [(drop 1 $list)]
-    }
-
-    for a $list {
-        set z = ($f $z $a)
-    }
-
-    put $z
-}
-
-fn reduce {|f @a &z=$nil|
-    if (== (count $a) 0) {
-        -reduce-input $f &z=$z
-    } elif (== (count $a) 1) {
-        -reduce-list $f $a[0] &z=$z
-    } else {
-        fail 'expected 1 list, got '(count $a)
-    }
 }
 
 # Calls f with arguments consisting of the first value of each list, followed 
@@ -100,34 +77,13 @@ fn partition {|n @list &step=$nil|
     }
 }
 
-fn -first-input {|f|
+fn first {|f @list|
     each {|v|
         if ($f $v) {
             put $v
             break
         }
-    }
-}
-
-fn -first-list {|f list|
-    for v $list {
-        if ($f $v) {
-            put $v
-            return
-        }
-    }
-}
-
-fn first {|f @list|
-    var n = (count $list)
-
-    if (== $n 0) {
-        -first-input $f
-    } elif (== $n 1) {
-        -first-list $f $list[0]
-    } else {
-        fail "invalid usage"
-    }
+    } $@list
 }
 
 fn filter {|f @list|
