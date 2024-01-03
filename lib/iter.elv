@@ -40,7 +40,8 @@ fn zip {|list1 list2 @lists|
     map {|@a| put $a } $list1 $list2 $@lists
 }
 
-fn -partition-input {|n step|
+fn partition {|n @list &step=$nil|
+    set step = (coalesce $step $n)
     var a = []
 
     each {|v|
@@ -49,28 +50,10 @@ fn -partition-input {|n step|
             put $a
             set a = $a[$step..]
         }
-    }
+    } $@list
 
     if (< 0 (count $a)) {
         put $a
-    }
-}
-
-fn -partition-list {|n step list|
-    range (count $list) &step=$step | each {|i|
-        put $list[$i..(math:min (+ $i $n) (count $list))]
-    }
-}
-
-fn partition {|n @list &step=$nil|
-    set step = (coalesce $step $n)
-
-    if (== (count $list) 0) {
-        -partition-input $n $step
-    } elif (== (count $list) 1) {
-        -partition-list $n $step $list[0]
-    } else {
-        fail 'expected 1 list, got '(count $list)
     }
 }
 
