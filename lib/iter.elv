@@ -1,9 +1,9 @@
 use math
 
-fn reduce {|f @list &z=$nil|
+fn reduce {|f~ @list &z=$nil|
     each {|v|
         set z = (if $z {
-            $f $z $v
+            f $z $v
         } else {
             put $v
         })
@@ -26,13 +26,13 @@ fn reduce {|f @list &z=$nil|
 #   ▶ [1 a]
 #   ▶ [2 b]
 #   ▶ [3 c]
-fn map {|f list @lists|
+fn map {|f~ list @lists|
     var n = (reduce {|z v| math:min $z (count $v)} ^
                     &z=(count $list) ^
                     $lists)
 
     range $n | each {|i|
-        $f $list[$i] (each {|a| put $a[$i]} $lists)
+        f $list[$i] (each {|a| put $a[$i]} $lists)
     }
 }
 
@@ -74,18 +74,18 @@ fn partition {|n @list &step=$nil|
     }
 }
 
-fn first {|f @list|
+fn first {|f~ @list|
     each {|v|
-        if ($f $v) {
+        if (f $v) {
             put $v
             break
         }
     } $@list
 }
 
-fn filter {|f @list|
+fn filter {|f~ @list|
     each {|x|
-        if ($f $x) {
+        if (f $x) {
             put $x
         }
     } $@list
