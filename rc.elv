@@ -2,7 +2,7 @@ set paths = [$E:HOME/.local/bin $@paths]
 
 use ./completions
 use ./aliases
-use ./prompt
+use git
 
 use journal
 
@@ -13,6 +13,27 @@ if (has-external direnv) {
 }
 
 set E:EDITOR = helix
+
+set edit:prompt = {
+    if $git:cwd[is-repository] {
+        git:pwd
+    } else {
+        tilde-abbr $pwd
+    }
+
+    put ' > '
+}
+
+set edit:rprompt = {
+    for segment [
+        (git:head)
+        (git:status)
+    ] {
+        if $segment {
+            put ' ' $segment
+        }
+    }
+}
 
 fn watch {|@a &n=2s|
     edit:clear
