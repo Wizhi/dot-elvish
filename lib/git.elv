@@ -21,6 +21,12 @@ fn only-in-repository {|f~|
     }
 }
 
+fn pwd {
+    only-in-repository {
+        put $cwd[workdir]
+    }
+}
+
 var styled: = (ns [
     &pwd~={
         only-in-repository {
