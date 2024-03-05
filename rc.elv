@@ -16,7 +16,7 @@ set E:EDITOR = helix
 
 set edit:prompt = {
     if $git:cwd[is-repository] {
-        git:pwd
+        git:styled:pwd
     } else {
         tilde-abbr $pwd
     }
@@ -26,8 +26,8 @@ set edit:prompt = {
 
 set edit:rprompt = {
     for segment [
-        (git:head)
-        (git:status)
+        (git:styled:head)
+        (git:styled:status)
     ] {
         if $segment {
             put ' ' $segment
