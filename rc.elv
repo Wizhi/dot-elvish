@@ -28,8 +28,11 @@ set edit:prompt = {
 
 set edit:rprompt = {
     for segment [
-        (git:styled:head)
-        (git:styled:status)
+        (git:only-in-repository {
+            git:styled:icon
+            git:styled:head
+            git:styled:status
+        })
     ] {
         if $segment {
             put ' ' $segment

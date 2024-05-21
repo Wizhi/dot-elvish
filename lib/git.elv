@@ -28,42 +28,39 @@ fn pwd {
 }
 
 var styled: = (ns [
+    &icon~={
+        put ""
+    }
     &pwd~={
-        only-in-repository {
-            put (styled (basename $cwd[workdir]) blue)(str:trim-prefix $pwd $cwd[workdir])
-        }
+        put (styled (basename $cwd[workdir]) blue)(str:trim-prefix $pwd $cwd[workdir])
     }
     &head~={
-        only-in-repository {
-            if (eq $cwd[local-branch] '') {
-                styled $cwd[commit][..8] yellow
-            } elif (or (eq $cwd[local-branch] $cwd[remote-branch]) (eq $cwd[remote-branch] '')) {
-                styled $cwd[local-branch] green
-            } else {
-                put (styled $cwd[local-branch] green)':'(styled $cwd[remote-branch] yellow)
-            }
+        if (eq $cwd[local-branch] '') {
+            styled $cwd[commit][..8] yellow
+        } elif (or (eq $cwd[local-branch] $cwd[remote-branch]) (eq $cwd[remote-branch] '')) {
+            styled $cwd[local-branch] green
+        } else {
+            put (styled $cwd[local-branch] green)':'(styled $cwd[remote-branch] yellow)
         }
     }
     &status~={
-        only-in-repository {
-            var status; set status = ''
+        var status; set status = ''
 
-            fn add {|k i @s|
-                if (> $cwd[$k] 0) {
-                    set status = $status(styled $i $@s)
-                }
+        fn add {|k i @s|
+            if (> $cwd[$k] 0) {
+                set status = $status(styled $i $@s)
             }
+        }
 
-            add conflicted     '%' red
-            add unstaged       '!' yellow
-            add staged         '+' green
-            add untracked      '?' blue
-            add commits-behind '🠗' yellow
-            add commits-ahead  '🠕' green
+        add conflicted     '%' red
+        add unstaged       '!' yellow
+        add staged         '+' green
+        add untracked      '?' blue
+        add commits-behind '🠗' yellow
+        add commits-ahead  '🠕' green
 
-            if (not-eq $status '') {
-                put $status
-            }
+        if (not-eq $status '') {
+            put $status
         }
     }
 ])
