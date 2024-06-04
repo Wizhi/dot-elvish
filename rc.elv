@@ -77,3 +77,11 @@ only-when-external direnv {
 only-when-external carapace {
     eval (carapace _carapace | slurp)
 }
+
+set edit:command-abbr['pa'] = 'passage'
+
+set edit:small-word-abbr['||'] = '| less'
+set edit:small-word-abbr['>1n'] = '1> /dev/null'
+set edit:small-word-abbr['>12'] = '1> &2'
+set edit:small-word-abbr['>2n'] = '2> /dev/null'
+set edit:small-word-abbr['>21'] = '2> &1'
