@@ -21,6 +21,10 @@ fn only-in-repository {|f~|
     }
 }
 
+fn pwd {
+    put $cwd[workdir]
+}
+
 var styled: = (ns [
     &icon~={
         put ""
